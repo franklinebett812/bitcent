@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Modern crypto investment landing page demo.">
+  <title>CryptoVault — Digital Asset Investing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#home"><span class="logo">₿</span> CryptoVault</a>
+    <nav id="navLinks">
+      <a href="#markets">Markets</a>
+      <a href="#plans">Plans</a>
+      <a href="#how">How It Works</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="btn btn-ghost" data-modal="login">Log in</button>
+      <button class="btn btn-ghost" data-modal="signup">Sign up</button>
+      <a class="btn btn-primary" href="#plans">Get Started</a>
+      <button class="menu" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <div class="pill">● Built for modern digital-asset investors</div>
+        <h1>Build your crypto strategy with <span>confidence.</span></h1>
+        <p>Explore digital assets, compare strategies, and manage your portfolio from one simple dashboard.</p>
+        <div class="hero-buttons">
+          <a class="btn btn-primary btn-large" href="#plans">Explore Plans →</a>
+          <a class="btn btn-outline btn-large" href="#how">How it works</a>
+        </div>
+        <div class="trust-row">
+          <div><strong>24/7</strong><small>Portfolio access</small></div>
+          <div><strong>10+</strong><small>Digital assets</small></div>
+          <div><strong>Secure</strong><small>Account controls</small></div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="chart-head"><span>Portfolio overview</span><span class="positive">+8.42%</span></div>
+        <div class="balance">$24,680.42</div>
+        <div class="period">Estimated demo balance</div>
+        <div class="chart">
+          <svg viewBox="0 0 500 190" preserveAspectRatio="none" aria-label="Decorative portfolio chart">
+            <defs><linearGradient id="fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-opacity=".35"/><stop offset="100%" stop-opacity="0"/></linearGradient></defs>
+            <path class="area" d="M0,155 C35,145 45,120 80,132 S130,110 160,120 S205,75 235,98 S285,60 315,82 S350,35 380,58 S430,30 455,45 S480,25 500,18 L500,190 L0,190 Z"/>
+            <path class="line" d="M0,155 C35,145 45,120 80,132 S130,110 160,120 S205,75 235,98 S285,60 315,82 S350,35 380,58 S430,30 455,45 S480,25 500,18"/>
+          </svg>
+        </div>
+        <div class="mini-assets">
+          <span>BTC <b>$68,420</b></span><span>ETH <b>$3,420</b></span><span>USDT <b>$1.00</b></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="markets">
+      <div class="section-head">
+        <div><span class="eyebrow">MARKETS</span><h2>Popular digital assets</h2></div>
+        <span class="live">● Demo market data</span>
+      </div>
+      <div class="market-grid">
+        <article class="market"><div class="coin btc">₿</div><div><b>Bitcoin</b><small>BTC</small></div><strong>$68,420.18</strong><span class="gain">+2.41%</span></article>
+        <article class="market"><div class="coin eth">Ξ</div><div><b>Ethereum</b><small>ETH</small></div><strong>$3,420.66</strong><span class="gain">+1.86%</span></article>
+        <article class="market"><div class="coin usdt">₮</div><div><b>Tether</b><small>USDT</small></div><strong>$1.00</strong><span class="gain">+0.02%</span></article>
+        <article class="market"><div class="coin sol">S</div><div><b>Solana</b><small>SOL</small></div><strong>$158.32</strong><span class="loss">-0.74%</span></article>
+      </div>
+    </section>
+
+    <section class="section plans" id="plans">
+      <div class="center-head"><span class="eyebrow">STRATEGIES</span><h2>Choose a plan that fits you</h2><p>Choose a plan to start investing with products that highlight a 21-day doubling cycle.</p></div>
+      <div class="plan-grid">
+        <article class="plan"><span class="tag">Starter</span><h3>Starter Growth Package</h3><div class="price">$20 <small>entry</small></div><ul><li>A simple introduction to crypto investing.</li><li>21-day doubling target</li><li>Low-risk starting point</li></ul><button class="btn btn-outline choose" data-plan="Starter Growth Package">Choose plan</button></article>
+        <article class="plan"><span class="tag">Balanced</span><h3>Balanced Portfolio Package</h3><div class="price">$50 <small>entry</small></div><ul><li>Diversified exposure to established and emerging crypto assets.</li><li>21-day doubling target</li><li>Portfolio balance focus</li></ul><button class="btn btn-outline choose" data-plan="Balanced Portfolio Package">Choose plan</button></article>
+        <article class="plan"><span class="tag">Long-Term</span><h3>Long-Term Builder Package</h3><div class="price">$100 <small>entry</small></div><ul><li>Focused on gradual, long-term growth.</li><li>21-day doubling target</li><li>Steady asset building</li></ul><button class="btn btn-outline choose" data-plan="Long-Term Builder Package">Choose plan</button></article>
+        <article class="plan"><span class="tag">Digital</span><h3>Digital Asset Plus Package</h3><div class="price">$150 <small>entry</small></div><ul><li>Broad exposure to multiple digital assets.</li><li>21-day doubling target</li><li>Multi-asset plan</li></ul><button class="btn btn-outline choose" data-plan="Digital Asset Plus Package">Choose plan</button></article>
+        <article class="plan"><span class="tag">Advanced</span><h3>Advanced Strategy Package</h3><div class="price">$500 <small>entry</small></div><ul><li>For experienced investors comfortable with higher risk.</li><li>30-day doubling target</li><li>Advanced strategy plan</li></ul><button class="btn btn-outline choose" data-plan="Advanced Strategy Package">Choose plan</button></article>
+        <article class="plan"><span class="tag">Premium</span><h3>Premium Diversification Package</h3><div class="price">$1,000 <small>entry</small></div><ul><li>Diversified across crypto sectors and asset types.</li><li>30-day doubling target</li><li>Sector spread focus</li></ul><button class="btn btn-outline choose" data-plan="Premium Diversification Package">Choose plan</button></article>
+        <article class="plan"><span class="tag">Institutional</span><h3>Institutional Select Package</h3><div class="price">$2,500 <small>entry</small></div><ul><li>A professionally structured portfolio for eligible investors.</li><li>30-day doubling target</li><li>Professional portfolio model</li></ul><button class="btn btn-outline choose" data-plan="Institutional Select Package">Choose plan</button></article>
+        <article class="plan"><span class="tag">Custom</span><h3>Custom Wealth Strategy Package</h3><div class="price">$5,000 <small>entry</small></div><ul><li>Tailored to goals, risk tolerance, and time horizon.</li><li>30-day doubling target</li><li>Personal wealth strategy</li></ul><button class="btn btn-outline choose" data-plan="Custom Wealth Strategy Package">Choose plan</button></article>
+      </div>
+    </section>
+
+    <section class="section how" id="how">
+      <div class="center-head"><span class="eyebrow">HOW IT WORKS</span><h2>Simple from start to finish</h2></div>
+      <div class="steps">
+        <div><span>01</span><h3>Create an account</h3><p>Set up your profile and review your chosen 21-day doubling investment option.</p></div>
+        <div><span>02</span><h3>Choose your strategy</h3><p>Compare plans that offer a 21-day doubling schedule and review the product details.</p></div>
+        <div><span>03</span><h3>Monitor your portfolio</h3><p>Track your growth cycle and monitor the plan’s 21-day doubling target.</p></div>
+      </div>
+    </section>
+
+    <section class="section safety">
+      <div class="safety-card"><div class="shield">✓</div><div><span class="eyebrow">SECURITY FIRST</span><h2>Your decisions. Your controls.</h2><p>Use strong passwords, enable multi-factor authentication, and verify platform details before sending funds. Never invest more than you can afford to lose.</p></div></div>
+    </section>
+
+    <section class="section faq" id="faq">
+      <div class="center-head"><span class="eyebrow">FAQ</span><h2>Questions, answered</h2></div>
+      <div class="faq-list">
+        <button class="faq-item"><span>What is the 21-day doubling target?</span><b>+</b><p>The 21-day doubling target describes the expected growth benchmark for selected packages. It is an investment projection and not a guaranteed return.</p></button>
+        <button class="faq-item"><span>How do I choose the right package?</span><b>+</b><p>Choose the package that best matches your budget, risk tolerance, and investment goal from the available strategy options.</p></button>
+        <button class="faq-item"><span>How much should I invest?</span><b>+</b><p>Review your available capital and invest only an amount you are comfortable allocating to a digital asset strategy.</p></button>
+        <button class="faq-item"><span>How do I get started?</span><b>+</b><p>Create your account through the secure portal, select a package, and review your product details before confirming your investment path.</p></button>
+        <button class="faq-item"><span>Are returns guaranteed?</span><b>+</b><p>No. Digital asset performance can change with market conditions, and all investment decisions should be made with careful risk assessment.</p></button>
+      </div>
+    </section>
+
+    <section class="section testimonials">
+      <div class="center-head"><span class="eyebrow">TESTIMONIALS</span><h2>Withdrawal stories</h2></div>
+      <div class="testimonial-grid">
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“Thank you for processing my withdrawal on time. I really appreciate the quick service and communication.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">A</span>
+            <div><strong>Alex Morgan</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“I’m happy that my withdrawal arrived when expected. Thank you for keeping everything moving smoothly.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">J</span>
+            <div><strong>Jordan Williams</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“Thank you for getting my profits processed on time. I really appreciate the prompt service.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">C</span>
+            <div><strong>Chris Anderson</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“I really appreciate the timely withdrawal and the updates along the way. Thank you for the support.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">T</span>
+            <div><strong>Taylor Johnson</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“My withdrawal was processed within the expected timeframe. Thank you for the professional service.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">M</span>
+            <div><strong>Michael Carter</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“Thank you for making the withdrawal process straightforward and getting my funds to me on time.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">D</span>
+            <div><strong>Daniel Thompson</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“I really appreciate how quickly my withdrawal was handled. Thank you for the great communication.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">R</span>
+            <div><strong>Ryan Mitchell</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“Thank you for processing my funds as expected. I’m grateful for the support throughout the process.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">K</span>
+            <div><strong>Kevin Robinson</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“I received my withdrawal on schedule. Thank you for the smooth service and timely updates.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">D</span>
+            <div><strong>David Parker</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“I really appreciate the prompt handling of my withdrawal. Thank you for making the process easy.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">J</span>
+            <div><strong>Jason Miller</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“Thank you for getting my withdrawal completed on time. The communication was also very helpful.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">A</span>
+            <div><strong>Andrew Brown</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“I’m pleased with how quickly my withdrawal was handled. Thank you for the efficient service.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">M</span>
+            <div><strong>Matthew Wilson</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“Thank you for the timely processing of my funds. I appreciate the assistance from start to finish.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">B</span>
+            <div><strong>Brian Taylor</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“My withdrawal came through within the expected timeframe. Thank you for keeping me informed.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">A</span>
+            <div><strong>Anthony Moore</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“I appreciate the fast and organized withdrawal process. Thank you for getting everything completed on time.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">E</span>
+            <div><strong>Eric Jackson</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“Thank you for making the withdrawal process smooth and straightforward. I received my funds as expected.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">J</span>
+            <div><strong>Justin Harris</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“I’m grateful for the prompt withdrawal processing and the helpful customer support. Thank you.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">B</span>
+            <div><strong>Brandon Clark</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“Thank you for handling my withdrawal promptly. I really appreciate the professionalism and communication.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">T</span>
+            <div><strong>Tyler Lewis</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“My funds arrived within the stated timeframe. Thank you for the smooth experience and support.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">R</span>
+            <div><strong>Robert Davis</strong></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <span class="stars">★★★★★</span>
+          <p>“Thank you for getting my withdrawal processed on time. I appreciate the quick response and excellent communication.”</p>
+          <div class="testimonial-author">
+            <span class="avatar">J</span>
+            <div><strong>James Wilson</strong></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta"><h2>Ready to explore crypto?</h2><p>Start by learning about the market and choosing a 21-day doubling plan that matches your risk tolerance.</p><a class="btn btn-primary btn-large" href="#plans">View strategies →</a></section>
+  </main>
+
+  <footer><div class="brand"><span class="logo">₿</span> CryptoVault</div><p>© 2026 CryptoVault.</p><div><a href="#faq">Risk disclosure</a><a href="#faq">Privacy</a><a href="#faq">Terms</a></div></footer>
+
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <button class="close" id="close">×</button>
+      <h2 id="modalTitle">Welcome back</h2>
+      <p id="modalIntro">Sign in to access your account.</p>
+
+      <section id="authPanel">
+        <button class="btn btn-outline google-btn" type="button" id="googleSignIn">Continue with Google</button>
+        <div class="auth-divider"><span>or</span></div>
+        <form id="authForm">
+          <input type="email" placeholder="Email address" required>
+          <input type="password" placeholder="Password" required>
+          <button class="btn btn-primary" type="submit" id="authSubmit">Continue</button>
+        </form>
+      </section>
+
+      <section id="checkoutPanel" class="checkout-panel" hidden>
+        <div class="checkout-heading">
+          <span class="checkout-label">Selected package</span>
+          <span id="checkoutPlanBadge" class="checkout-plan-badge">Starter Growth Package</span>
+        </div>
+
+        <form id="checkoutForm">
+          <div class="checkout-grid">
+            <label class="checkout-field">
+              <span>Choose package</span>
+              <select id="packageSelect" required></select>
+            </label>
+
+            <label class="checkout-field">
+              <span>Full name</span>
+              <input type="text" id="fullName" placeholder="Full name" required autocomplete="name">
+            </label>
+
+            <label class="checkout-field">
+              <span>Email address</span>
+              <input type="email" id="customerEmail" placeholder="Email address" required autocomplete="email">
+            </label>
+
+            <label class="checkout-field">
+              <span>Phone number</span>
+              <input type="tel" id="phone" placeholder="Phone number" required autocomplete="tel">
+            </label>
+
+            <label class="checkout-field checkout-full">
+              <span>Street address</span>
+              <input type="text" id="address" placeholder="Street address" required autocomplete="street-address">
+            </label>
+
+            <label class="checkout-field">
+              <span>City</span>
+              <input type="text" id="city" placeholder="City" required autocomplete="address-level2">
+            </label>
+
+            <label class="checkout-field">
+              <span>Country</span>
+              <input type="text" id="country" placeholder="Country" required autocomplete="country-name">
+            </label>
+          </div>
+
+          <div class="checkout-actions">
+            <button type="button" class="btn btn-ghost" id="checkoutCancel">Back</button>
+            <button type="submit" class="btn btn-primary" id="checkoutSubmit">Save details & pay</button>
+          </div>
+        </form>
+      </section>
+
+      <small id="formMsg"></small>
+      <p class="auth-switch"><span id="switchText">No account yet?</span> <button type="button" id="switchMode">Create one</button></p>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="script.js"></script>
+
+  <!--Start of Tawk.to Script-->
+  <script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/6aa11f5454084334472a6d47/default';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+  </script>
+  <!--End of Tawk.to Script-->
+</body>
+</html>
