@@ -300,51 +300,59 @@
 
       <section id="checkoutPanel" class="checkout-panel" hidden>
         <div class="checkout-heading">
-          <span class="checkout-label">Selected package</span>
-          <span id="checkoutPlanBadge" class="checkout-plan-badge">Starter Growth Package</span>
+          <div class="checkout-plan-row">
+            <div class="checkout-plan-info">
+              <span class="checkout-label">Selected package</span>
+              <span id="checkoutPlanBadge" class="checkout-plan-badge">Starter Growth Package</span>
+            </div>
+            <div class="checkout-plan-icon">📦</div>
+          </div>
         </div>
 
         <form id="checkoutForm">
+
+          <div class="checkout-section-label">Personal information</div>
           <div class="checkout-grid">
             <label class="checkout-field">
-              <span>Choose package</span>
-              <select id="packageSelect" required></select>
-            </label>
-
-            <label class="checkout-field">
               <span>Full name</span>
-              <input type="text" id="fullName" placeholder="Full name" required autocomplete="name">
+              <input type="text" id="fullName" placeholder="John Smith" required autocomplete="name">
             </label>
 
             <label class="checkout-field">
               <span>Email address</span>
-              <input type="email" id="customerEmail" placeholder="Email address" required autocomplete="email">
-            </label>
-
-            <label class="checkout-field">
-              <span>Phone number</span>
-              <input type="tel" id="phone" placeholder="Phone number" required autocomplete="tel">
+              <input type="email" id="customerEmail" placeholder="you@example.com" required autocomplete="email">
             </label>
 
             <label class="checkout-field checkout-full">
+              <span>Phone number</span>
+              <input type="tel" id="phone" placeholder="+1 555 000 0000" required autocomplete="tel">
+            </label>
+          </div>
+
+          <div class="checkout-section-label">Location</div>
+          <div class="checkout-grid">
+            <label class="checkout-field checkout-full">
               <span>Street address</span>
-              <input type="text" id="address" placeholder="Street address" required autocomplete="street-address">
+              <input type="text" id="address" placeholder="123 Main Street, Apt 4B" required autocomplete="street-address">
             </label>
 
             <label class="checkout-field">
               <span>City</span>
-              <input type="text" id="city" placeholder="City" required autocomplete="address-level2">
+              <input type="text" id="city" placeholder="New York" required autocomplete="address-level2">
             </label>
 
             <label class="checkout-field">
               <span>Country</span>
-              <input type="text" id="country" placeholder="Country" required autocomplete="country-name">
+              <input type="text" id="country" placeholder="United States" required autocomplete="country-name">
             </label>
           </div>
 
+          <!-- Hidden package select kept for JS compatibility -->
+          <select id="packageSelect" style="display:none" required></select>
+
           <div class="checkout-actions">
-            <button type="button" class="btn btn-ghost" id="checkoutCancel">Back</button>
-            <button type="submit" class="btn btn-primary" id="checkoutSubmit">Save details & pay</button>
+            <button type="button" class="btn btn-ghost" id="checkoutCancel">← Back</button>
+            <button type="submit" class="btn btn-primary" id="checkoutSubmit">Continue to payment →</button>
           </div>
         </form>
       </section>
