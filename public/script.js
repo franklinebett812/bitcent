@@ -167,6 +167,7 @@ function showCheckoutPanel(planName) {
   modalTitle.textContent = 'Complete your investment profile';
   modalIntro.textContent = 'Choose your package and enter your basic details to continue.';
   modal.classList.add('show');
+  document.querySelector('.modal-box').classList.add('checkout-open');
 
   const currentUser = readCurrentUser();
   const email = currentUser && currentUser.email ? currentUser.email : '';
@@ -181,6 +182,7 @@ function showAuthPanel() {
   authPanel.hidden = false;
   checkoutPanel.hidden = true;
   formMsg.textContent = '';
+  document.querySelector('.modal-box').classList.remove('checkout-open');
 
   if (authMode === 'signup') {
     modalTitle.textContent = 'Create your account';
@@ -500,7 +502,40 @@ if (googleSignIn) {
     if (authProvider === 'firebase' && firebaseAuth && googleProvider) {
       formMsg.textContent = 'Connecting Google account...';
       googleProvider.setCustomParameters({ prompt: 'select_account' });
-      firebaseAuth.signInWithRedirect(googleProvider);
+
+      // Persist selected plan across the popup so it survives the auth flow
+      sessionStorage.setItem('pendingPlan', selectedPlan || 'Starter Growth Package');
+
+      firebaseAuth.signInWithPopup(googleProvider)
+        .then(result => {
+          if (result.user) {
+            const user = { email: result.user.email, provider: 'firebase' };
+            writeCurrentUser(user);
+            setNavForAuth(user);
+            const pendingPlan = sessionStorage.getItem('pendingPlan') || selectedPlan || 'Starter Growth Package';
+            sessionStorage.removeItem('pendingPlan');
+            showCheckoutPanel(pendingPlan);
+            if (document.getElementById('customerEmail')) {
+              document.getElementById('customerEmail').value = user.email;
+            }
+            // Set after showCheckoutPanel because it clears formMsg internally
+            formMsg.textContent = 'Google account connected.';
+          }
+        })
+        .catch(error => {
+          console.error('[Google Auth] Popup error:', error.code, error.message);
+          if (error.code === 'auth/unauthorized-domain') {
+            formMsg.textContent = 'This domain is not authorised for Google sign-in. Add it in Firebase Console → Authentication → Authorised domains.';
+          } else if (error.code === 'auth/popup-blocked') {
+            formMsg.textContent = 'Pop-up was blocked by your browser. Please allow pop-ups for this site and try again.';
+          } else if (error.code === 'auth/cancelled-popup-request' || error.code === 'auth/popup-closed-by-user') {
+            formMsg.textContent = 'Google sign-in was cancelled.';
+          } else if (error.code === 'auth/operation-not-allowed') {
+            formMsg.textContent = 'Google sign-in is not enabled. Enable it in Firebase Console → Authentication → Sign-in method.';
+          } else {
+            formMsg.textContent = 'Google sign-in failed (' + (error.code || error.message) + '). Check the browser console for details.';
+          }
+        });
       return;
     }
 
@@ -530,7 +565,15 @@ if (googleSignIn) {
   });
 }
 
+// Restore any pending plan selected before a redirect auth flow
+const _restoredPlan = sessionStorage.getItem('pendingPlan');
+if (_restoredPlan) {
+  selectedPlan = _restoredPlan;
+  selectedPlanFromCheckout = _restoredPlan;
+}
+
 if (authProvider === 'firebase' && firebaseAuth) {
+  // getRedirectResult handles any lingering redirect sessions (e.g. older browsers)
   firebaseAuth.getRedirectResult()
     .then(result => {
       if (result.user) {
@@ -541,17 +584,31 @@ if (authProvider === 'firebase' && firebaseAuth) {
 
         writeCurrentUser(user);
         setNavForAuth(user);
-        formMsg.textContent = 'Google account connected.';
+        const pendingPlan = sessionStorage.getItem('pendingPlan') || selectedPlan || 'Starter Growth Package';
+        sessionStorage.removeItem('pendingPlan');
         modal.classList.add('show');
-        showCheckoutPanel(selectedPlan || 'Starter Growth Package');
+        showCheckoutPanel(pendingPlan);
         if (document.getElementById('customerEmail')) {
           document.getElementById('customerEmail').value = user.email;
         }
+        formMsg.textContent = 'Google account connected.';
       }
     })
     .catch(error => {
-      formMsg.textContent = 'Google authentication failed.';
-      console.error(error);
+      console.error('[Google Auth] Redirect error:', error.code, error.message);
+      modal.classList.add('show');
+      showAuthPanel();
+      if (error.code === 'auth/unauthorized-domain') {
+        formMsg.textContent = 'This domain is not authorised for Google sign-in. Add it in Firebase Console → Authentication → Authorised domains.';
+      } else if (error.code === 'auth/popup-blocked') {
+        formMsg.textContent = 'Pop-up was blocked. Please allow pop-ups and try again.';
+      } else if (error.code === 'auth/cancelled-popup-request' || error.code === 'auth/popup-closed-by-user') {
+        formMsg.textContent = 'Google sign-in was cancelled.';
+      } else if (error.code === 'auth/operation-not-allowed') {
+        formMsg.textContent = 'Google sign-in is not enabled. Enable it in Firebase Console → Authentication → Sign-in method.';
+      } else {
+        formMsg.textContent = 'Google sign-in failed (' + (error.code || error.message) + '). Check the browser console for details.';
+      }
     });
 }
 
@@ -580,14 +637,17 @@ authForm.addEventListener('submit', e => {
     if (authMode === 'signup') {
       formMsg.textContent = 'Creating account...';
       firebaseAuth.createUserWithEmailAndPassword(email, password)
-        .then(user => {
-          syncAuthNav(user, 'firebase');
-          formMsg.textContent = 'Account created. You are signed in.';
+        .then(credential => {
+          const firebaseUser = credential.user || credential;
+          const user = { email: firebaseUser.email || email, provider: 'firebase' };
+          writeCurrentUser(user);
+          setNavForAuth(user);
           modal.classList.add('show');
           showCheckoutPanel(selectedPlan || 'Starter Growth Package');
           if (document.getElementById('customerEmail')) {
-            document.getElementById('customerEmail').value = email;
+            document.getElementById('customerEmail').value = user.email;
           }
+          formMsg.textContent = 'Account created. You are signed in.';
         })
         .catch(error => {
           if (error.code === 'auth/email-already-in-use') {
@@ -603,14 +663,17 @@ authForm.addEventListener('submit', e => {
     } else {
       formMsg.textContent = 'Signing in...';
       firebaseAuth.signInWithEmailAndPassword(email, password)
-        .then(user => {
-          syncAuthNav(user, 'firebase');
-          formMsg.textContent = 'Welcome back! You are signed in.';
+        .then(credential => {
+          const firebaseUser = credential.user || credential;
+          const user = { email: firebaseUser.email || email, provider: 'firebase' };
+          writeCurrentUser(user);
+          setNavForAuth(user);
           modal.classList.add('show');
           showCheckoutPanel(selectedPlan || 'Starter Growth Package');
           if (document.getElementById('customerEmail')) {
-            document.getElementById('customerEmail').value = email;
+            document.getElementById('customerEmail').value = user.email;
           }
+          formMsg.textContent = 'Welcome back! You are signed in.';
         })
         .catch(error => {
           if (error.code === 'auth/user-not-found') {
