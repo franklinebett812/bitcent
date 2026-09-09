@@ -785,19 +785,21 @@ document.querySelectorAll('.faq-item').forEach(item => {
 
 const menuBtn = document.getElementById('menuBtn');
 const navLinks = document.getElementById('navLinks');
-menuBtn.addEventListener('click', () => {
-  const open = navLinks.style.display === 'flex';
-  navLinks.style.display = open ? '' : 'flex';
 
-  if (!open) {
-    navLinks.style.position = 'absolute';
-    navLinks.style.top = '76px';
-    navLinks.style.left = '0';
-    navLinks.style.right = '0';
-    navLinks.style.padding = '20px 6%';
-    navLinks.style.background = '#07111f';
-    navLinks.style.flexDirection = 'column';
-  }
+menuBtn.addEventListener('click', () => {
+  const isOpen = navLinks.classList.contains('nav-open');
+  navLinks.classList.toggle('nav-open', !isOpen);
+  menuBtn.setAttribute('aria-expanded', String(!isOpen));
+  menuBtn.textContent = isOpen ? '☰' : '✕';
+});
+
+// Close the menu when a nav link is tapped on mobile
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('nav-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.textContent = '☰';
+  });
 });
 
 setNavForAuth(readCurrentUser());
