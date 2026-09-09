@@ -68,6 +68,46 @@ if (firebaseConfigured && window.firebase && firebase.apps.length) {
   authProvider = "firebase";
 }
 
+// Track the live Firebase auth state so logout works even after page reload
+let currentFirebaseUser = null;
+if (authProvider === 'firebase' && firebaseAuth) {
+  firebaseAuth.onAuthStateChanged(user => {
+    currentFirebaseUser = user;
+    if (user) {
+      writeCurrentUser({ email: user.email, provider: 'firebase' });
+      setNavForAuth({ email: user.email, provider: 'firebase' });
+    } else {
+      // Only clear if it was a Firebase-provider session
+      const stored = readCurrentUser();
+      if (!stored || stored.provider === 'firebase') {
+        writeCurrentUser(null);
+        setNavForAuth(null);
+      }
+    }
+  });
+}
+
+function showToast(message, duration) {
+  duration = duration || 3000;
+  let toast = document.getElementById('authToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'authToast';
+    toast.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:#0f2035;border:1px solid #2a4361;color:#eef5ff;padding:12px 22px;border-radius:12px;font:600 14px Inter;z-index:999;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;white-space:nowrap';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  requestAnimationFrame(() => {
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+  });
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(-50%) translateY(20px)';
+  }, duration);
+}
+
 const accountsKey = "cryptovaultAccounts";
 const currentUserKey = "cryptovaultCurrentUser";
 
@@ -355,8 +395,8 @@ function signInLocal(email, password) {
 
 if (loginBtn) {
   loginBtn.addEventListener('click', () => {
-    if (authProvider === 'firebase' && firebaseAuth && firebaseAuth.currentUser) {
-      redirectAfterSuccess(firebaseAuth.currentUser);
+    if (authProvider === 'firebase' && firebaseAuth && (currentFirebaseUser || readCurrentUser()?.provider === 'firebase')) {
+      redirectAfterSuccess(currentFirebaseUser || readCurrentUser());
       return;
     }
 
@@ -371,19 +411,40 @@ if (loginBtn) {
 
 if (signupBtn) {
   signupBtn.addEventListener('click', () => {
-    if (authProvider === 'firebase' && firebaseAuth && firebaseAuth.currentUser) {
+    // Firebase logout — use currentFirebaseUser (kept in sync by onAuthStateChanged)
+    // NOT firebaseAuth.currentUser which can be null on page reload until async hydration
+    if (authProvider === 'firebase' && firebaseAuth && currentFirebaseUser) {
       firebaseAuth.signOut().then(() => {
-        setNavForAuth(null);
+        currentFirebaseUser = null;
         writeCurrentUser(null);
-        formMsg.textContent = 'You have been logged out.';
+        setNavForAuth(null);
+        showToast('You have been logged out.');
+      }).catch(() => {
+        showToast('Logout failed. Please try again.');
       });
       return;
     }
 
+    // Local provider logout
     if (authProvider === 'local' && readCurrentUser()) {
       writeCurrentUser(null);
       setNavForAuth(null);
-      formMsg.textContent = 'You have been logged out.';
+      showToast('You have been logged out.');
+      return;
+    }
+
+    // Also handle case where Firebase user is in localStorage but currentFirebaseUser
+    // hasn't hydrated yet (e.g. button clicked immediately on page load)
+    const stored = readCurrentUser();
+    if (stored && stored.provider === 'firebase' && firebaseAuth) {
+      firebaseAuth.signOut().then(() => {
+        currentFirebaseUser = null;
+        writeCurrentUser(null);
+        setNavForAuth(null);
+        showToast('You have been logged out.');
+      }).catch(() => {
+        showToast('Logout failed. Please try again.');
+      });
       return;
     }
 
@@ -402,7 +463,7 @@ document.querySelectorAll('.choose').forEach(btn => {
     selectedPlanFromCheckout = btn.dataset.plan;
 
     const loggedLocalUser = readCurrentUser();
-    const loggedFirebaseUser = authProvider === 'firebase' && firebaseAuth && firebaseAuth.currentUser;
+    const loggedFirebaseUser = authProvider === 'firebase' && currentFirebaseUser;
 
     if (loggedLocalUser || loggedFirebaseUser) {
       const loggedUser = loggedFirebaseUser
